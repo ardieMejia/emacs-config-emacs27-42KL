@@ -1,6 +1,22 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 
+
+
+;; ===== 2026: hydra cursor advice fix
+
+(defun ardie/post-cursor-advice (num &optional character)
+  "My advice for `foo`."
+  ;; Example of around advice logic
+  (set-cursor-color "#000000")
+  (makunbound 'ardie/right-char-count)
+  (makunbound 'ardie/left-char-count)
+  )
+
+
+(advice-add 'self-insert-command :before #'ardie/post-cursor-advice)
+;; ==================================================
+
 (defun my-mark-line ()
   (interactive)
   "my own mark lien"

@@ -37,6 +37,7 @@
 
 (add-to-list 'load-path "/home/arwan/.temp/hydra/")
 (add-to-list 'load-path "/home/arwan/.temp/compat/")
+(add-to-list 'load-path "/home/arwan/.temp/drag-stuff/")
 
 
 
@@ -44,6 +45,7 @@
 (load-file "/home/arwan/.temp/key-chord.el")
 (load-file "/home/arwan/.temp/my-hydra.el")
 (load-file "/home/arwan/.temp/my-looks.el")
+(load-file "/home/arwan/.temp/drag-stuff.el")
 
 
 

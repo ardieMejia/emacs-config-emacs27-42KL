@@ -8,6 +8,12 @@
 (tool-bar-mode -1)
 (blink-cursor-mode -1)
 
+(global-display-line-numbers-mode 1)
+
+(auto-insert-mode 1)
+(setq auto-insert-query nil)
+(define-auto-insert "\\.c?$" "~/.temp/42_template.txt")
+
 
 ;; ========== highlight
 ;; (global-hl-line-mode +1)
@@ -45,7 +51,7 @@
 (load-file "/home/arwan/.temp/key-chord.el")
 (load-file "/home/arwan/.temp/my-hydra.el")
 (load-file "/home/arwan/.temp/my-looks.el")
-(load-file "/home/arwan/.temp/drag-stuff.el")
+(load-file "/home/arwan/.temp/drag-stuff/drag-stuff.el")
 
 
 
@@ -88,9 +94,9 @@
 
 
 
+(load-file "/home/arwan/.temp/my-nav.el")
 (load-file "/home/arwan/.temp/my-hydra.el")
 (load-file "/home/arwan/.temp/my-keychord.el")
-(load-file "/home/arwan/.temp/my-nav.el")
 (load-file "/home/arwan/.temp/projectile.el")
 
 

@@ -38,3 +38,5 @@
 (key-chord-define-global "p[" 'ardie/switch-left-window)
 
 (key-chord-define-global "[]" 'ardie/switch-right-window)
+
+(setq key-chord-typing-speed-threshold 0.7)

@@ -16,14 +16,6 @@
   (interactive)
   (org-link-open-from-string "https://profile.intra.42.fr/slots")
   )
-(defun ardie/open-profile ()
-  (interactive)
-  (org-link-open-from-string "https://profile.intra.42.fr/slots")
-  )
-(defun ardie/open-project ()
-  (interactive)
-  (org-link-open-from-string "https://projects.intra.42.fr/")
-  )
 
 
 

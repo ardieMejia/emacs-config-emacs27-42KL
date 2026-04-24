@@ -2,19 +2,34 @@
 
 (defun ardie/open-1 ()
   (interactive)
-  (org-link-open-from-string "https://cdn.intra.42.fr/pdf/pdf/193172/en.subject.pdf")
+  (org-link-open-from-string "https://projects.intra.42.fr/c-piscine-c-01/mine")
+  ;; C01
   )
 (defun ardie/open-2 ()
   (interactive)
-  (org-link-open-from-string "https://cdn.intra.42.fr/pdf/pdf/202120/en.subject.pdf")
+  (org-link-open-from-string "https://projects.intra.42.fr/c-piscine-c-02/arwan")
+  ;; C02
   )
 (defun ardie/open-3 ()
   (interactive)
-  (org-link-open-from-string "https://cdn.intra.42.fr/pdf/pdf/195096/en.subject.pdf")
+  (org-link-open-from-string "https://projects.intra.42.fr/projects/c-piscine-c-03")
+  ;; C00
+  )
+(defun ardie/open-4 ()
+  (interactive)
+  (org-link-open-from-string "https://projects.intra.42.fr/projects/c-piscine-c-04")
   )
 (defun ardie/open-slots ()
   (interactive)
   (org-link-open-from-string "https://profile.intra.42.fr/slots")
+  )
+(defun ardie/open-profile ()
+  (interactive)
+  (org-link-open-from-string "https://profile.intra.42.fr")
+  )
+(defun ardie/open-project ()
+  (interactive)
+  (org-link-open-from-string "https://projects.intra.42.fr/")
   )
 
 
@@ -46,7 +61,29 @@
 (global-set-key (kbd "C-c m , d") 'my-copy-directory)
 ;; ==================================================
 
-(setq my-symbol-numvar '("hi-green" "mouse-drag-and-drop-region" "hi-aquamarine" "show-paren-match" "diff-indicator-removed" "hi-salmon" ))
+(setq ardie/current-antin nil)
+(defun my-tab-highlight ()
+  (interactive)
+      (progn
+	(highlight-phrase "\t" "org-habit-clear-face")
+	)
+  )
+	
+
+;; ==================================================
+
+
+(defun my-tab-unhighlight ()
+  (interactive)
+      (progn
+	(unhighlight-regexp "\t")
+	)
+  )
+
+;; ==================================================
+
+
+(setq my-symbol-numvar '("org-habit-clear-face" "mouse-drag-and-drop-region" "hi-aquamarine" "show-paren-match" "diff-refine-added" "hi-salmon" ))
 (defun my-symbol-no-pop ()
   (interactive)
   (setq my-symbol-numvar (append (cdr my-symbol-numvar)  (list (pop my-symbol-numvar))))
@@ -56,6 +93,19 @@
   (print (car my-symbol-numvar))
 (print "success")
 )
+
+;; ==================================================
+
+(defun my-unsymbol ()
+  (interactive)
+  ;; (thing-at-point 'word 'no-properties)
+  (setq var1 (buffer-substring-no-properties  (region-beginning) (region-end)))
+  (setq var2 (string-replace ":" "" var1))
+  (unhighlight-regexp var2)
+  (pop-mark)
+  )
+
+(global-set-key (kbd "C-c u") 'my-unsymbol)
 
 ;; ==================================================
 
@@ -90,16 +140,30 @@
 
 
 
+;; (defun ardie/42-auto-indent()
+;;   (interactive)
+;;   (beginning-of-line)
+;;   (forward-word)
+;;   (backward-word)
+;;   (delete-indentation)
+;;   (forward-word)
+;;   (backward-word)
+;;   (newline)
+;;   (insert "\t")
+;;   ;; but progn is bad!! I dunno
+;;   (progn
+;;     (whitespace-cleanup)
+;;     )
+;;   )
 (defun ardie/42-auto-indent()
   (interactive)
   (beginning-of-line)
   (forward-word)
   (backward-word)
-  (delete-indentation)
-  (forward-word)
-  (backward-word)
-  (newline)
-  (insert "\t")
+  (tab-to-tab-stop)
+  (progn
+    (whitespace-cleanup)
+    )
   )
 
 
@@ -112,3 +176,62 @@
   )
 
 (global-set-key (kbd "<M-return>") 'ardie/add-semicolon-at-c-eol)
+
+
+
+
+;; ===== we should rewrite this using with-temp-buffer
+(defun ardie/ugly-42-function()
+(interactive)
+(shell-command
+ (concat
+  "source /home/arwan/Documents/python_temp/myenv/bin/activate; cp "
+  buffer-file-name
+  " /home/arwan/my-trash/"
+      (file-name-base (buffer-file-name))
+  ".c"
+  (shell-command-to-string "date +'%H%M%S'")
+
+  )
+ ;; main.c ";c_formatter_42 < ~/my-trash/delete/shellPractice/main.c > ~/my-trash/delete/shellPractice/NEW_main.c"
+ 
+ )
+(shell-command
+ (concat
+  "source /home/arwan/Documents/python_temp/myenv/bin/activate; c_formatter_42 < "
+  buffer-file-name
+  " > "
+  default-directory    
+  "NEW_"
+  (file-name-base (buffer-file-name))
+  ".c"
+  )
+ )
+(shell-command
+ (concat
+      "mv "
+  default-directory    
+  "NEW_"
+  (file-name-base (buffer-file-name))
+  ".c"
+  " "
+  default-directory
+  (file-name-base (buffer-file-name))
+  ".c"
+  ))
+)
+
+
+
+
+(defun close-all-buffers()
+  (interactive)
+  (dolist (ardie/a-buffer (buffer-list) )
+    (let ((ardie/a-buffer-name
+	   (buffer-name ardie/a-buffer)
+	   ))
+      (if (not (equal ardie/a-buffer-name "*ardie-scratch*"))
+	  (if (not (string-match "Async Shell Command" ardie/a-buffer-name))
+	      (kill-buffer ardie/a-buffer-name)
+	    )
+	nil))))

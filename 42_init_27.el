@@ -23,6 +23,8 @@
 
 
 
+(setq global-visual-line-mode t)
+
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (setq recentf-max-saved-items 300)
@@ -31,6 +33,10 @@
 
 (run-at-time nil (* 5 60) 'recentf-save-list)
 
+
+(setq trash-directory "/home/arwan/my-trash/")
+
+(setq delete-by-moving-to-trash t)
 
 ;; ========== 
 (setq frame-title-format
@@ -49,9 +55,12 @@
 
 (load-file "/home/arwan/.temp/hydra/hydra.el")
 (load-file "/home/arwan/.temp/key-chord.el")
+;; (load-file "/home/arwan/.temp/my-c-common.el")
 (load-file "/home/arwan/.temp/my-hydra.el")
 (load-file "/home/arwan/.temp/my-looks.el")
 (load-file "/home/arwan/.temp/drag-stuff/drag-stuff.el")
+(load-file "/home/arwan/.temp/my-abbrevs.el")
+(load-file "/home/arwan/.temp/my-major-alist.el")
 
 
 
@@ -79,7 +88,7 @@
 ;; ========== electric-pair-mode FIX ==========
 ;; ===== taken from this link:
 ;; https://emacs.stackexchange.com/questions/13603/auctex-disable-electric-pair-mode-in-minibuffer-during-macro-definition
-(defvar my-electic-pair-modes '(emacs-lisp-mode  python-mode  c-mode ))
+(defvar my-electic-pair-modes '(emacs-lisp-mode  python-mode  c-mode ardie/c-mode))
 
 (defun my-inhibit-electric-pair-mode (char)
   (not (member major-mode my-electic-pair-modes)))
@@ -89,6 +98,9 @@
 
 ;; ========== electric-pair-mode FIX ==========
 
+
+(add-hook 'org-mode-hook 'visual-line-mode)
+(setq dired-dwim-target t)
 
 
 
@@ -111,6 +123,70 @@
 (compat--maybe-require)
 
 
+(defun ardie/norminette()
+  (interactive)
+  ;; (print (shell-command-to-string "norminette"))
+  (compilation-start (concat "norminette " (string-join  (directory-files default-directory nil "^[^_].*c$") " ")) 'grep-mode))
+
+(defun ardie/full-norminette()
+  (interactive)
+  ;; (print (shell-command-to-string "norminette"))
+  (compilation-start (concat "norminette -R CheckForbiddenSourceHeader " (string-join  (directory-files default-directory nil "^[^_].*c$") " ")) 'grep-mode))
+
+
+(defun ardie/simple-compile()
+  (interactive)
+  (save-buffer)
+  (compile (concat "gcc " (string-join  (directory-files default-directory nil "^[^_].*c$") " ") "; ./a.out"))
+  
+  )
+(defun ardie/full-compile()
+  (interactive)
+  (save-buffer)
+  (compile (concat "gcc -Wextra -Wall -Werror " (string-join  (directory-files default-directory nil "^[^_].*c$") " ") "; ./a.out"))
+  
+  )
+
+(defun ardie/test-simple-compile()
+  (interactive)
+  (save-buffer)
+  (message "empty template function")
+  
+  )
+
 
 ;; (load-file "/home/arwan/.temp/init-c.el")
 
+
+(defun ardie/open-42-header()
+  (interactive)
+  (let ((ardie/fn (read-string "enter filename: ")))
+    ;; (find-file (concat default-directory ardie/fn))
+    (shell-command
+     (concat
+      "vi -c 'Stdheader' -c 'wq' "
+      ardie/fn
+      ))))
+
+(defun ardie/ugly-start()
+  (interactive)
+  (insert "/*")
+      )
+(defun ardie/ugly-end()
+  (interactive)
+  (insert "*/")
+      )
+
+(global-set-key (kbd "<mouse-9>") 'ardie/simple-compile)
+(global-set-key (kbd "<C-mouse-9>") 'ardie/full-compile)
+(global-set-key (kbd "<M-mouse-9>") 'ardie/test-simple-compile)
+(global-set-key (kbd "<mouse-8>") 'ardie/norminette)
+(global-set-key (kbd "<C-mouse-8>") 'ardie/full-norminette)
+(global-set-key (kbd "<drag-mouse-8>") 'ardie/norminette)
+(global-set-key (kbd "C-c C-4") 'ardie/open-42-header)
+
+
+
+
+(setenv "USER" "arwan")
+(setenv "MAIL" "arwan@student.42kl.edu.my")

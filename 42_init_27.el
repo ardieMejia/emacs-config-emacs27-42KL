@@ -88,7 +88,7 @@
 ;; ========== electric-pair-mode FIX ==========
 ;; ===== taken from this link:
 ;; https://emacs.stackexchange.com/questions/13603/auctex-disable-electric-pair-mode-in-minibuffer-during-macro-definition
-(defvar my-electic-pair-modes '(emacs-lisp-mode  python-mode  c-mode ardie/c-mode))
+(defvar my-electic-pair-modes '(emacs-lisp-mode  python-mode  c-mode ardie/c-mode makefile-gmake-mode org-mode))
 
 (defun my-inhibit-electric-pair-mode (char)
   (not (member major-mode my-electic-pair-modes)))
@@ -191,3 +191,17 @@
 
 (setenv "USER" "arwan")
 (setenv "MAIL" "arwan@student.42kl.edu.my")
+
+
+
+
+
+(add-to-list 'load-path "/home/arwan/.temp/markdown-mode/")
+
+(add-to-list 'custom-theme-load-path
+             (file-name-as-directory "/home/arwan/.temp/replace-colorthemes"))
+
+
+(load-theme
+'fischmeister
+ )

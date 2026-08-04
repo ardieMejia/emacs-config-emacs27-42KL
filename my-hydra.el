@@ -36,7 +36,7 @@
   "file hydra"
   (";" (insert ";") :column "insert ;")
   ("q" nil "quit")    
-  ("1" ardie/open-1 "open 1" :column "files" )
+  ("1" ardie/norm "open 1" :column "files" )
   ("2" ardie/open-2 "open 2" :column "files" )
   ("3" ardie/open-3 "open 3" :column "files" )
   ("4" ardie/open-4 "open 4" :column "files" )

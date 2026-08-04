@@ -1,3 +1,8 @@
+;; (fido-mode 1)
+
+
+;; (setq icomplete-separator  "   \n")
+
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (defun ardie/open-1 ()
@@ -27,10 +32,20 @@
   (interactive)
   (org-link-open-from-string "https://profile.intra.42.fr")
   )
+
+
 (defun ardie/open-project ()
   (interactive)
   (org-link-open-from-string "https://projects.intra.42.fr/")
   )
+
+
+(defun ardie/norm ()
+  (interactive)
+  (org-link-open-from-string "https://cdn.intra.42.fr/pdf/pdf/96987/en.norm.pdf")
+  )
+
+
 
 
 

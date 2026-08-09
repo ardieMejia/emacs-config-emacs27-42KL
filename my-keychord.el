@@ -1,4 +1,6 @@
 ;; ==================== key-chords ====================
+
+
 (defun ardie/open-custom-scratch-if-nexist()
   (interactive)
   (if
@@ -30,7 +32,6 @@
 
 (key-chord-define-global "zx" 'previous-buffer)
 (key-chord-define-global ",." 'next-buffer)
-(key-chord-define-global "z." 'bury-buffer)
 (key-chord-define-global "qw" 'undo)
 (key-chord-define-global "pj" 'dabbrev-expand)
 ;; ===== stupid escaping slashes, my brain hurts

@@ -31,7 +31,7 @@
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 (setq recentf-menu-filter "recentf-sort-ascending")
 
-(run-at-time nil (* 5 60) 'recentf-save-list)
+(run-at-time nil (* 1 60) 'recentf-save-list)
 
 
 (setq trash-directory "/home/arwan/my-trash/")
@@ -185,6 +185,7 @@
 (global-set-key (kbd "<C-mouse-8>") 'ardie/full-norminette)
 (global-set-key (kbd "<drag-mouse-8>") 'ardie/norminette)
 (global-set-key (kbd "C-c C-4") 'ardie/open-42-header)
+(global-set-key (kbd "C-z") 'bury-buffer)
 
 
 

@@ -7,8 +7,8 @@
     ("printfn" "printf(\"\\n\");" nil :count 4)
     ("prt" "printf(\"\");" nil :count 10)
     ("prtn" "printf(\"\\n\");" nil :count 1)
-    ("test" "test123" nil :count 0)
     ("wh" "while()" nil :count 1)
-    ("wrt" "write(1,,1);" nil :count 5)
+    ("wrt" "write(1,,1);" nil :count 10)
+    ("wrtn" "write(1,\"\\n\",1);" nil :count 1)
    ))
 

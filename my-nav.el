@@ -132,7 +132,8 @@
       (progn
         (exchange-point-and-mark)
         (when
-            (not (equal (window-end) (point)))
+            ;; (not (equal (window-end) (point)))
+	    (not (equal (buffer-end 1) (point)))
           (next-line)
           (move-end-of-line 1)
           )
@@ -148,6 +149,8 @@
     )
 
   )
+
+
 
 
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))

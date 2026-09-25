@@ -5,19 +5,15 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(defun ardie/open-1 ()
-  (interactive)
-  (org-link-open-from-string "https://projects.intra.42.fr/projects/c-piscine-c-05")
-  ;; C01
-  )
+
 (defun ardie/open-2 ()
   (interactive)
-  (org-link-open-from-string "https://projects.intra.42.fr/projects/c-piscine-c-06")
+  (org-link-open-from-string "https://cdn.intra.42.fr/pdf/pdf/216046/en.subject.pdf")
   ;; C02
   )
 (defun ardie/open-3 ()
   (interactive)
-  (org-link-open-from-string "https://projects.intra.42.fr/projects/c-piscine-c-07")
+  (org-link-open-from-string "https://cdn.intra.42.fr/pdf/pdf/206637/en.subject.pdf")
   ;; C00
   )
 (defun ardie/open-4 ()
@@ -151,6 +147,27 @@
   )
 
 
+(defvar ardie/hydra-funcmove-sexp '(emacs-lisp-mode))
+(defvar ardie/hydra-funcmove-defun '(ardie/c-mode))
+
+(defun my-mark-defun ()
+  (interactive)
+  "my own mark defun mode-sensitive, coz forward-thing has many options"
+  (if mark-active
+      (progn
+	(cond ((member major-mode ardie/hydra-funcmove-defun)
+	       (forward-thing 'defun))
+	      ((member major-mode ardie/hydra-funcmove-sexp)
+	       (forward-thing 'sexp)) )
+        (exchange-point-and-mark)
+	)
+    (progn
+      (set-mark (point))
+      )
+    )
+  )
+
+
 
 
 (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
@@ -240,6 +257,7 @@
 )
 
 
+(global-set-key (kbd "<C-M-mouse-9>") 'ardie/ugly-42-function)
 
 
 (defun close-all-buffers()

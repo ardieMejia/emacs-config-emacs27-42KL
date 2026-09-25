@@ -639,24 +639,11 @@
     ;; ("q" hydra-pop "exit everything")    
 
   ("t"
-   (if mark-active
        (progn	 
-	 (forward-sexp)
+	 (my-mark-defun)
 	 (my-sexp-hydra/body)
 	 )
-     (progn
-       (move-beginning-of-line nil)
-       (set-mark (point))
-       ;; (set-mark-command)
-       (my-sexp-hydra/body)
-       )
-     )
-   ;; (progn
-   ;; 	 (backward-sexp)
-   ;; 	 (set-mark (point))
-   ;; 	 (forward-sexp)
-   ;; 	 (my-sexp-hydra/body)
-   ;; 	 )
+
 
    "select sexp under point" :column "1")
 
@@ -697,6 +684,7 @@
 	     (read-only-mode -1)
 	   nil
 	   )
+	 (exchange-point-and-mark)
 	 (kill-ring-save (region-beginning) (region-end))
 	 (move-end-of-line 1)
 	 (newline)

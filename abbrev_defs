@@ -3,9 +3,9 @@
   '(
     ("fn" "function" nil :count 1)
     ("function" "function name (x) { return x; }" nil :count 1)
-    ("main" "int main()" nil :count 1)
+    ("mmain" "int main()" nil :count 1)
     ("printfn" "printf(\"\\n\");" nil :count 4)
-    ("prt" "printf(\"\");" (lambda ()(search-backward "\"")) :count 10)
+    ("prt" "printf(\"\\n\\n\");" (lambda () (search-backward "\\"))       :count 10)
     ("prtn" "printf(\"\\n\");" nil :count 1)
     ("wh" "while()" nil :count 1)
     ("wrt" "write(1,,1);" (lambda ()(search-backward ","))  :count 10)

@@ -31,14 +31,18 @@
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 (setq recentf-menu-filter "recentf-sort-ascending")
 
-(run-at-time nil (* 1 60) 'recentf-save-list)
+(run-at-time nil (* 2 60) 'recentf-save-list)
 
 
 (setq trash-directory "/home/arwan/my-trash/")
 
 (setq delete-by-moving-to-trash t)
 
-;; ========== 
+;; ==========
+
+(setq explicit-shell-file-name "/bin/bash")
+
+(setq shell-file-name "/bin/bash")
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
        (abbreviate-file-name (buffer-file-name))
@@ -182,13 +186,47 @@
   (save-buffer)
   (revert-buffer)
   )
+
+(defun ardie/recreate-working-and-fuzzing()
+  (interactive)
+  (save-buffer)
+  (if (equal (car (vc-git-branches)) "fuzzing")
+    (let ((ardie/current-commit (shell-command-to-string "git log -1 HEAD --format=%s")))
+      (if (string-match "work.*fuzz" ardie/current-commit)
+	  (progn
+	    (message (shell-command-to-string "git add *c *h Makefile */*Makefile */*c */*h"))
+	    (message (shell-command-to-string "git commit --allow-empty --amend --no-edit"))
+	    )
+	(if (y-or-n-p "not work n fuzz. Recreate from scratch??")
+	    (progn
+	      (shell-command-to-string "git add *c *h Makefile */*Makefile */*c */*h")
+	      (message (shell-command-to-string "git commit --allow-empty -m \"working and fuzzing\" ")))
+	  (message "nothing done"))))
+    (message "not a special project")))
+
+
+(defun ardie/back-to-square-one ()
+  (interactive)
+  (save-buffer)
+  (if (equal (car (vc-git-branches)) "fuzzing")
+      (let ((current-commit-message (shell-command-to-string "git log -1 HEAD~1 --format=%s")))
+	(if (y-or-n-p (concat "reset hard to \"" current-commit-message "\" and create work n fuzz again? "))
+	    (progn
+	      (message (shell-command-to-string "git reset --hard HEAD~1"))
+	      (message (shell-command-to-string "git commit --allow-empty  -m \"working and fuzzing\" ")))
+	  (message "action cancelled")))
+    (message "not a special project")))
+
+
 ;; (global-set-key (kbd "<mouse-9>") 'ardie/full-compile)
 ;; (global-set-key (kbd "<C-mouse-9>") 'ardie/simple-compile)
 ;; (global-set-key (kbd "<M-mouse-9>") 'ardie/test-simple-compile)
 (add-hook 'c-mode-hook (lambda ()
 			 (local-set-key (kbd "C-c C-z") 'ardie/simple-compile)
 			 (local-set-key (kbd "C-z") 'ardie/full-compile)
-			 (local-set-key (kbd "C-q") 'ardie/save-n-revert)			 
+			 (local-set-key (kbd "C-q") 'ardie/save-n-revert)
+			 (local-set-key (kbd "C-c C-g") 'ardie/recreate-working-and-fuzzing)
+			 (local-set-key (kbd "C-c C-r") 'ardie/back-to-square-one)
 			 ))
 ;; (global-set-key (kbd "<M-mouse-9>") 'ardie/save-n-revert)
 (global-set-key (kbd "<mouse-8>") 'ardie/norminette)
@@ -207,7 +245,24 @@
 
 
 
+
+
 (add-to-list 'load-path "/home/arwan/.temp/markdown-mode/")
+(require 'markdown-mode)
+;; (add-to-list 'load-path "/home/arwan/.temp/emacs-web-server/")
+
+;; (require 'simple-httpd)
+;; (setq httpd-root "/var/www")
+;; (httpd-start)
+
+;; (load-file "/home/arwan/.temp/htmlize.el")
+
+;; (add-to-list 'load-path "/home/arwan/.temp/impatient-mode")
+;; (require 'impatient-mode)
+
+
+
+
 
 (add-to-list 'custom-theme-load-path
              (file-name-as-directory "/home/arwan/.temp/replace-colorthemes"))
